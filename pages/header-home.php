@@ -1,18 +1,25 @@
-<nav class="navbar navbar-light rounded position-stickey" style="background-color:white;">
-    <div class="container">
-        <a class="navbar-brand text-dark" href="index.php">
-            <h5> <i class="fas fa-bars"></i></h5>
-
+<nav class="navbar rounded navbar-light " style="background-color:#d16943">
+    <div class=" container-fluid">
+        <a class="navbar-brand text-light" href="index.php">
+            <h4> <i class="fas fa-bars"></i> </h4>
         </a>
         <div class="d-flex">
+            <?php 
+        if(isset($_SESSION["user"])){
+          ?>
+            <a href="dashboard.php" class="nav-link text-white">Dashboard </a><span></span>
+            <a href="logout.php" class="nav-link text-danger"> 
+                <i class="fas fa-sign-out-alt"></i> Logout</a>
             <?php
-            if (isset($_SESSION["user"])) {
-            ?>
-                <a href="logout.php" class="nav-link text-danger">
-                    <i class="fas fa-sign-out-alt"></i></a>
+        }else{
+          ?>
+            <a href="login.php" class="nav-link text-white">
+            <i class="fas fa-sign-in-alt"></i> Login </a><span></span>
+            <a href="register.php" class="nav-link text-white">
+            <i class="fas fa-sign-in-alt"></i> Signup</a>
             <?php
-            }
-            ?>
+        }
+      ?>
         </div>
     </div>
 </nav>

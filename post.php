@@ -23,31 +23,39 @@ require "inc/header.php"; ?>
             <div class="col-12">
                 <div class="row">
                     <div class="col-6">
-                        <h4 style="color:#176B87;">DASHBOARD</h4>
+                        <h4>Welcome <?php echo $_SESSION["user"]["name"]; ?></h4>
                     </div>
+                    <!-- <div class="col-6">
+                      <a href="logout.php" class="btn btn-sm btn-danger">Logout</a>
+                 </div> -->
                 </div>
             </div>
             <div class="col-3">
-                <ul class="list-group">
-                    <div>
-                        <li class="list-group-item" style="color:#176B87;">
-                            <a href="course.php" class="btn text-danger">
-                                <i class="fas fa-grip-vertical" style="color:#176B87;"></i> Department</a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="overview.php" class="btn">
-                                <i class="fas fa-boxes" style="color:#176B87;"></i> Course Overview</a>
-                        </li class="list-group-item">
-                        <li class="list-group-item">
-                            <a href="dashboard.php" class="btn">
-                                <i class="fas fa-plus" style="color:#176B87;"></i> Add Course </a>
-                        </li>
-                    </div>
+                <h5>Navigations</h5>
+                <ul>
+                    <li>
+                        <a href="post.php" class="text-danger">Posts</a>
+                    </li>
+                    <li>
+                        <a href="comments.php">Comments</a>
+                    </li>
+                    <li>
+                        <a href="new-post.php">Add New Post</a>
+                    </li>
+                    <li>
+                        <a href="category.php">Categories</a>
+                    </li>
+                    <li>
+                        <a href="users.php">Users</a>
+                    </li>
+                    <li>
+                        <a href="new-user.php">Add New User</a>
+                    </li>
                 </ul>
             </div>
             <div class="col-9">
                 <div class="container">
-                    <a href="javascript:;" class="btn text-light border" style="background-color:#176B87;" data-bs-toggle="modal" data-bs-target="#exampleModal">New Course</a>
+                    <h6>All Posts</h6>
                     <?php
                     if (isset($error)) {
                     ?>
@@ -67,29 +75,47 @@ require "inc/header.php"; ?>
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Name</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM courses";
+                            $sql = "SELECT * FROM posts";
                             $query = mysqli_query($connection, $sql);
-                            $count = 1;
+                            $counter = 1;
                             while ($result = mysqli_fetch_assoc($query)) {
                             ?>
                                 <tr class="table-active">
-                                    <th scope="row"><?php echo $count ?></th>
-                                    <td><?php echo $result["name"]; ?></td>
+                                    <td scope="row"><?php echo $counter; ?></td>
+                                    <td scope="row">
+                                        <img height="50" src=<?php echo $result["thumbnail"]; ?> alt="">
+                                    </td>
+                                    <td><?php echo $result["title"]; ?></td>
+                                    <td><?php
+                                        if ($result["status"]) {
+                                        ?>
+                                            Active
+                                        <?php
+                                        } else {
+                                        ?>
+                                            Not Active
+                                        <?php
+                                        }
+                                        ?></td>
+                                    <td><?php echo $result["timestamp"]; ?></td>
                                     <td>
-                                        <a href="course-edit.php? edit_id=<?php echo $result["id"] ?>">
-                                            <i class="fas fa-edit"></i></a>
+                                        <a href="edit-post.php? edit_post_id=<?php echo $result["id"] ?>">Edit</a>
                                         |
-                                        <a href="course.php? delete_course=<?php echo $result["id"]; ?>">
-                                            <i class="fas fa-trash-alt text-danger"></i></a>
+                                        <a href="?delete_post=<?php echo $result["id"]; ?>">
+                                            Delete</a>
                                     </td>
                                 </tr>
                             <?php
-                                $count++;
+                                $counter++;
                             }
                             ?>
                         </tbody>
@@ -104,22 +130,22 @@ require "inc/header.php"; ?>
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New Course</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">New Category</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="" method="post">
                         <label for="">Title</label>
                         <div class="form-group">
-                            <input type="text" class="form-control" name="name" placeholder="Enter course name" id="" required>
+                            <input type="text" class="form-control" name="name" placeholder="Enter title" id="" required>
                         </div>
                         <div class="my-3">
-                            <button type="submit" class="btn" style="background-color:#3b7fad;" name="add-course"><i class="fas fa-plus text-light"></i></button>
+                            <button type="submit" class="btn btn-primary" name="category">Submit</button>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn text-light" style="background-color:red" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

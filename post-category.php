@@ -2,12 +2,13 @@
 session_start();
  require "inc/process.php";
  require "inc/header.php";
- 
- if(isset($_POST["search"])){
-     $search = $_POST["search"];
+
+ if(isset($_GET["post_category_id"]) && !empty($_GET["post_category_id"])){
+   $id = $_GET["post_category_id"];
  }else{
-     $search = '';
+   header("location: index.php");   
  }
+ 
  ?>
 
 <div class="container">
@@ -16,30 +17,36 @@ session_start();
         <div class="row justify-content-center">
             <div class="col-8">
                 <div class="border p-3">
-                    <form action="search.php" method="post">
-                        <div class="form-group">
-                            <h4>Search result for: <?php echo $search; ?></h4>
-                            <input type="text" class="form-control" name="search" placeholder="Enter Search Keyword" id=""
-                                required>
-                        </div>
-                        <button type="submit" class="btn text-white mt-2"
-                            style="background-color:#d16943;">Search</button>
-                    </form>
+                    <ul style="display:flex; list-style-type:none;">
+                        <?php
+        $sql_c ="SELECT * FROM category ORDER BY id DESC";
+        $query_c = mysqli_query($connection,$sql_c);
+        $count = 0;
+        while ($result_c = mysqli_fetch_assoc($query_c)) { 
+            ?>
+                        <li style="<?php echo $count >0 ? 'margin-left:10px;' : '' ?>">
+                            <a href="post-category.php?post_category_id=<?php echo $result_c["id"]; ?>"
+                                class="<?php echo $result_c["id"] == $id? 'text-danger' : '' ?>">
+                                <?php echo $result_c["name"]; ?></a>
+                        </li>
+                        <?php
+             $count++;
+        }
+     ?>
+                    </ul>
                 </div>
             </div>
             <div class="col-8">
                 <div class="row">
                     <?php
-              //displaying the search posts from database
-              $searchterm = $_POST["search"];
-              $sql = "SELECT * FROM posts WHERE content LIKE '%$searchterm%' ORDER BY id DESC";
+              $sql = "SELECT * FROM posts WHERE category_id ='$id' ORDER BY id DESC";
               $query = mysqli_query($connection,$sql);
                while($result = mysqli_fetch_assoc($query)) { 
                 //Looping through the col for multiples post
                 ?>
                     <div class="col-4 mt-2">
                         <div class="card">
-                        <div class="card-body">
+                            <div class="card-body">
                             <?php
                             $id = $result["category_id"];
                             $sql = "SELECT * FROM category WHERE id=$id";
@@ -57,7 +64,6 @@ session_start();
                                 <a href="read-post.php?post_id=<?php echo $result["id"]; ?>">
                                     Read more
                                 </a>
-                            </div>
                             </div>
                         </div>
                     </div>

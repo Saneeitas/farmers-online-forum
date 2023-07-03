@@ -4,64 +4,61 @@ session_start();
 //header links
  require "inc/header.php"; ?>
 
- <div class="container">
+<div class="container">
 
- <?php
+    <?php
  //header content
  require './pages/header-home.php';
  include 'inc/process.php'; ?>
 
-<div class="d-flex aligns-items-center justify-content-center py-3">
-    <form action="" method="post">
+    <div class="d-flex aligns-items-center justify-content-center py-3">
+        <form action="" method="post">
 
-      <div class="form-group"> 
-          <h4 class="text-center">LOGIN</h4>
-          <?php 
+            <div class="form-group">
+                <h4 class="text-center">Login</h4>
+                <?php 
               if(isset($error)) {
                   ?>
-                  <div class="alert alert-danger">
-                      <strong><?php echo $error ?></strong>
-                  </div>
-                  <?php
+                <div class="alert alert-danger">
+                    <strong><?php echo $error ?></strong>
+                </div>
+                <?php
               }elseif (isset($success)) {
                   ?>
                 <div class="alert alert-success">
-                <strong><?php echo $success ?></strong>
-               </div>
-               <?php
+                    <strong><?php echo $success ?></strong>
+                </div>
+                <?php
               }
           ?>
-      </div>
-<div class="input-group flex-nowrap my-3">
-  <span class="input-group-text"  style="color: #176B87"><i class="fas fa-id-badge"></i></span>
-  <input type="text" name="email" class="form-control" placeholder="Email" required>
-</div>
-<div class="input-group flex-nowrap">
-  <span class="input-group-text"  style="color: #176B87"> <i class="fas fa-lock"></i></span>
-  <input type="password" name="password" class="form-control" placeholder="Password" required>
-</div>
+            </div>
 
-<button type="submit" name="login" class="btn btn-sm my-3 form-control" style="color: #176B87; background-color:white"><i class="fas fa-sign-in-alt"></i> SIGNIN</button>
-<br>
-<p><i>If not registered <a href="register.php">Signup</a></i></p>
+            <div class="form-group">
+                <label for="">Email</label>
+                <input type="text" name="email" class="form-control" placeholder="Enter your email" id="" required>
+            </div>
+            <div class="form-group">
+                <label for="">Password</label>
+                <input type="password" name="password" class="form-control" placeholder="Enter password" id="" required>
+            </div>
+            <button type="submit" name="login" class="btn text-white my-3"
+                style="background-color:#d16943;">Login</button>
+            <br>
+            <p>If not registered <a href="register.php">Signup</a></p>
 
+        </form>
 
-
-    </form>
-
-    
-
-</div>    
+    </div>
 
 
 
-<?php  
+    <?php  
 //footer content
 require './pages/footer-home.php'; ?>
 
- </div>
+</div>
 
 
- <?php
+<?php
  //footer script
   require "inc/footer.php";  ?>
